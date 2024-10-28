@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Multiplier Generator</title>
+    <title>1Win Access</title>
     <style>
         /* Фон и стиль страницы */
         body {
@@ -13,7 +13,7 @@
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
-            background-image: url('https://naffipase.com/wp-content/uploads/2024/04/Frame-38313-2048x943.webp'); /* Укажите путь к вашему фоновому изображению */
+            background-image: url('https://naffipase.com/wp-content/uploads/2024/04/Frame-38313-2048x943.webp');
             background-size: cover;
             background-position: center;
             color: white;
@@ -22,7 +22,7 @@
         /* Стиль контейнера */
         .game-container {
             text-align: center;
-            background-color: rgba(0, 0, 0, 0.6); /* Полупрозрачный тёмный фон */
+            background-color: rgba(0, 0, 0, 0.6);
             padding: 20px;
             border-radius: 10px;
             max-width: 300px;
@@ -36,24 +36,9 @@
             color: #ffffff;
         }
 
-        /* Стиль текста случайного множителя */
-        .multiplier {
-            font-size: 3em;
-            margin: 20px 0;
-            color: #00ff7f; /* Светло-зелёный цвет */
-            opacity: 0;
-            transform: scale(0.5);
-            transition: opacity 1s ease, transform 1s ease;
-        }
-
-        .multiplier.show {
-            opacity: 1;
-            transform: scale(1);
-        }
-
         /* Стили кнопки */
         .button {
-            background-color: #9d0fff; /* Оранжевый цвет */
+            background-color: #9d0fff;
             color: white;
             padding: 15px 30px;
             font-size: 1.1em;
@@ -61,47 +46,76 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
+            margin-top: 10px;
         }
 
         .button:hover {
-            background-color: #9d0fff; /* Темно-красный при наведении */
+            background-color: #7b0ddb; /* Тёмно-фиолетовый при наведении */
         }
 
-        /* Стиль текста загрузки */
-        .loading {
-            font-size: 1.5em;
-            color: #9d0fff;
-            opacity: 0;
-            transition: opacity 0.5s ease;
+        /* Стиль для сообщения об ошибке */
+        .error {
+            color: red;
+            margin-top: 10px;
         }
 
-        .loading.show {
-            opacity: 1;
+        /* Скрыть элементы по умолчанию */
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
     <div class="game-container">
-        <h1>LuckyJet Predictor</h1>
-        <div class="loading" id="loading">Загрузка...</div>
-        <div class="multiplier" id="multiplier"></div>
-        <button class="button" onclick="generateRandomMultiplier()">Получить</button>
+        <h1>Введите ID вашего аккаунта 1Win</h1>
+        <input type="text" id="accountId" placeholder="ID аккаунта" />
+        <button class="button" onclick="checkAccess()">Подключиться</button>
+        <div class="error hidden" id="errorMsg"></div>
+        <div class="success hidden" id="successMsg"></div>
+        <div class="loading hidden" id="loading">Загрузка...</div>
+        <div class="multiplier hidden" id="multiplier"></div>
     </div>
 
     <script>
+        async function checkAccess() {
+            const accountId = document.getElementById("accountId").value;
+            const errorMsg = document.getElementById("errorMsg");
+            const successMsg = document.getElementById("successMsg");
+            const loadingElement = document.getElementById("loading");
+            const multiplierElement = document.getElementById("multiplier");
+            errorMsg.classList.add("hidden");
+            successMsg.classList.add("hidden");
+            loadingElement.classList.remove("hidden");
+
+            try {
+                // Загружаем список разрешенных ID из файла
+                const response = await fetch('allowed_ids.txt');
+                const allowedIds = await response.text();
+                const allowedIdArray = allowedIds.split('\n').map(id => id.trim());
+
+                if (allowedIdArray.includes(accountId)) {
+                    loadingElement.classList.add("hidden");
+                    successMsg.classList.remove("hidden");
+                    generateRandomMultiplier(); // Вызов функции генерации множителя
+                } else {
+                    loadingElement.classList.add("hidden");
+                    errorMsg.textContent = "Доступ запрещён. ";
+                    errorMsg.innerHTML += '<a href="https://t.me/ваш_телеграм" style="color: #9d0fff;">Получить доступ</a>'; // Ссылка на телеграм
+                    errorMsg.classList.remove("hidden");
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                loadingElement.classList.add("hidden");
+                errorMsg.textContent = "Произошла ошибка. Попробуйте снова.";
+                errorMsg.classList.remove("hidden");
+            }
+        }
+
         function generateRandomMultiplier() {
             const multiplierElement = document.getElementById("multiplier");
-            const loadingElement = document.getElementById("loading");
-
-            multiplierElement.classList.remove("show");
-            loadingElement.classList.add("show");
-
-            setTimeout(() => {
-                const randomMultiplier = (Math.random() * 9 + 1).toFixed(2);
-                multiplierElement.textContent = `x${randomMultiplier}`;
-                loadingElement.classList.remove("show");
-                multiplierElement.classList.add("show");
-            }, 2000);
+            multiplierElement.classList.remove("hidden");
+            const randomMultiplier = (Math.random() * 9 + 1).toFixed(2);
+            multiplierElement.textContent = `Случайный множитель: x${randomMultiplier}`;
         }
     </script>
 </body>

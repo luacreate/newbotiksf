@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Multiplier Generator</title>
+    <style>
+        /* Фон и стиль страницы */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('https://naffipase.com/wp-content/uploads/2024/04/Frame-38313-2048x943.webp'); /* Укажите путь к вашему фоновому изображению */
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+
+        /* Стиль контейнера */
+        .game-container {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.6); /* Полупрозрачный тёмный фон */
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 300px;
+            width: 100%;
+        }
+
+        /* Стили текста */
+        h1 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        /* Стиль текста случайного множителя */
+        .multiplier {
+            font-size: 3em;
+            margin: 20px 0;
+            color: #00ff7f; /* Светло-зелёный цвет */
+            opacity: 0;
+            transform: scale(0.5);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .multiplier.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Стили кнопки */
+        .button {
+            background-color: #9d0fff; /* Оранжевый цвет */
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #9d0fff; /* Темно-красный при наведении */
+        }
+
+        /* Стиль текста загрузки */
+        .loading {
+            font-size: 1.5em;
+            color: #9d0fff;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>LuckyJet Predictor</h1>
+        <div class="loading" id="loading">Загрузка...</div>
+        <div class="multiplier" id="multiplier"></div>
+        <button class="button" onclick="generateRandomMultiplier()">Получить</button>
+    </div>
+
+    <script>
+        function generateRandomMultiplier() {
+            const multiplierElement = document.getElementById("multiplier");
+            const loadingElement = document.getElementById("loading");
+
+            multiplierElement.classList.remove("show");
+            loadingElement.classList.add("show");
+
+            setTimeout(() => {
+                const randomMultiplier = (Math.random() * 9 + 1).toFixed(2);
+                multiplierElement.textContent = `x${randomMultiplier}`;
+                loadingElement.classList.remove("show");
+                multiplierElement.classList.add("show");
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
